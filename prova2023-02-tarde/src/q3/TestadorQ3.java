@@ -1,6 +1,8 @@
 package q3;
 
 import java.util.Scanner;
+import java.util.Set;
+
 
 /**
  * Questão 3 (3 pontos).
@@ -53,6 +55,102 @@ Redes de Computadores, sem pré-requisitos
 Processamento Paralelo e Distribuído, pré-requisitos: Redes de Computadores, Sistemas Operacionais
 
  */
+import java.util.*;
+
+// Classe Universidade
+class Universidade {
+	private String nome;
+	private Set<Curso> cursos;
+
+	public Universidade(String nome) {
+		this.nome = nome;
+		this.cursos = new HashSet<>();
+	}
+
+	public Curso criaCurso(String nomeCurso) {
+		Curso curso = new Curso(nomeCurso);
+		cursos.add(curso);
+		return curso;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Universidade: ").append(nome).append("\n");
+		for (Curso curso : cursos) {
+			sb.append(curso).append("\n");
+		}
+		return sb.toString();
+	}
+}
+
+// Classe Curso
+class Curso {
+	private String nome;
+	private LinkedHashMap<String, Disciplina> disciplinas;
+
+	public Curso(String nome) {
+		this.nome = nome;
+		this.disciplinas = new LinkedHashMap<>();
+	}
+
+	public Disciplina criaDisciplina(String id, String nomeDisciplina) {
+		Disciplina disciplina = new Disciplina(id, nomeDisciplina);
+		disciplinas.put(id, disciplina);
+		return disciplina;
+	}
+
+	public void estabelecePreReq(Disciplina disciplina, String idPreReq) {
+		Disciplina preReq = disciplinas.get(idPreReq);
+		if (preReq != null) {
+			disciplina.adicionarPreRequisito(preReq);
+		}
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Curso: ").append(nome).append("\nDisciplinas:\n");
+		for (Disciplina disciplina : disciplinas.values()) {
+			sb.append(disciplina).append("\n");
+		}
+		return sb.toString();
+	}
+}
+
+// Classe Disciplina
+class Disciplina {
+	private String id;
+	private String nome;
+	private Set<Disciplina> preRequisitos;
+
+	public Disciplina(String id, String nome) {
+		this.id = id;
+		this.nome = nome;
+		this.preRequisitos = new LinkedHashSet<>();
+	}
+
+	public void adicionarPreRequisito(Disciplina preRequisito) {
+		preRequisitos.add(preRequisito);
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(nome);
+		if (preRequisitos.isEmpty()) {
+			sb.append(", sem pré-requisitos");
+		} else {
+			sb.append(", pré-requisitos: ");
+			List<String> nomesPreRequisitos = new ArrayList<>();
+			for (Disciplina preReq : preRequisitos) {
+				nomesPreRequisitos.add(preReq.nome);
+			}
+			sb.append(String.join(", ", nomesPreRequisitos));
+		}
+		return sb.toString();
+	}
+}
 
 public class TestadorQ3 {
 

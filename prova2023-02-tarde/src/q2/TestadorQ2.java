@@ -1,5 +1,7 @@
 package q2;
 
+import java.util.Random;
+
 /**
  * Questão 2 (3 pontos). 
  * 
@@ -51,6 +53,50 @@ interface JogoPedraPapelTesoura {
 	 * @return 1 ou 2 dependendo do jogador vitorioso.
 	 */
 	public int getJogadorVencedor();
+}
+
+class JogoPedraPapelTesouraImpl implements JogoPedraPapelTesoura {
+	private Jogada jogadaJogador1;
+	private Jogada jogadaJogador2;
+	private int jogadorVencedor;
+
+	public JogoPedraPapelTesouraImpl() {
+		Random r = new Random();
+ 		int n = r.nextInt(3);
+		jogadaJogador1 = Jogada.values()[n];
+		r = new Random();
+		n = r.nextInt(3);
+		jogadaJogador2 = Jogada.values()[n];
+		if (jogadaJogador1 == jogadaJogador2) {
+			jogadorVencedor = 0;
+		} else if (jogadaJogador1 == Jogada.PEDRA && jogadaJogador2 == Jogada.TESOURA
+				|| jogadaJogador1 == Jogada.PAPEL && jogadaJogador2 == Jogada.PEDRA
+				|| jogadaJogador1 == Jogada.TESOURA && jogadaJogador2 == Jogada.PAPEL) {
+			jogadorVencedor = 1;
+		} else {
+			jogadorVencedor = 2;
+		}
+	}
+
+	@Override
+	public boolean haVencedor() {
+		return jogadorVencedor != 0;
+	}
+
+	@Override
+	public Jogada jogadaJogador1() {
+		return jogadaJogador1;
+	}
+
+	@Override
+	public Jogada jogadaJogador2() {
+		return jogadaJogador2;
+	}
+
+	@Override
+	public int getJogadorVencedor() {
+		return jogadorVencedor;
+	}
 }
 
 /**
